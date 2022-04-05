@@ -5,7 +5,7 @@ Due to javafx poor performance of JavaFX listview. CustomListView is a subclass 
 # Usage
 fxml:
 
-```
+```fxml
         
    <AnchorPane xmlns="http://javafx.com/javafx"
        xmlns:fx="http://javafx.com/fxml"
@@ -21,6 +21,25 @@ fxml:
 
 Controller.java
 
+```java
+@FXML
+public CustomListView<Mark> customListView;
+ObservableList<ItemModelClass> itemsList;
+...
+
+customListView.setCellFactory((CustomListView.ListViewCellFactory<ItemModelClass>) (item, position) -> {
+            ItemCellController cell = new ItemCellController(itemsList, this, ResourceBundle);
+            return cell.getItemPane(item);
+        });
+        
+customListView.setDragListener(this::onItemMove);
+
 ```
 
+Inside `onItemMove` that you assign as DragListener you can for example do order changes in your persistent storage, API, etc.
+
+```Java
+private void onItemMove(int fromPos, int toPos){
+     // Save the changes in persistent storage (DB, ...)
+}
 ```
